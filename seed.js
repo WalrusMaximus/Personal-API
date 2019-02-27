@@ -5,7 +5,7 @@
 
 const db = require('./models');
 
-const albums = [
+const album_list = [
     {
         name: "Ashes of the Wake",
         band: "Lamb of God",
@@ -42,13 +42,29 @@ const albums = [
         rating: 10
     },
 ]
-}
 
-db.albums.create(new_campsite, function(err, campsite){
-  if (err){
-    return console.log("Error:", err);
-  }
 
-  console.log("Created new campsite", campsite._id)
-  process.exit(); // we're all done! Exit the program.
-})
+db.Album.deleteMany({}, function(err, albums) {
+    console.log('Cleared Album Database');
+    db.Album.create(album_list, function(err, albums){
+        if (err) { console.log(err) }
+            return; 
+        });
+
+        album_list.forEach(function (albumData) {
+            let album = new db.Album({
+                name: albumData.name,
+                band: albumData.band,
+                rating: albumData.rating,
+                    
+
+            })
+                
+            album.save(function(err,savedAlbum){
+                if (err) {throw err}
+                console.log(`Added ${savedAlbum} to Albums`); 
+            })
+        })
+
+    
+    });

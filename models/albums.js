@@ -3,10 +3,10 @@ const Schema = mongoose.Schema;
 
 const AlbumSchema = new Schema({
     name: String,
-    artist: String,
+    band: String,
     rating: String,
 })
 
 const Album = mongoose.model('Album', AlbumSchema);
 
-module.exports = Book;
+module.exports = Album;
