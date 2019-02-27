@@ -47,13 +47,13 @@ app.get('/api', (req, res) => {
   // It would be seriously overkill to save any of this to your database.
   // But you should change almost every line of this response.
   res.json({
-    woopsIForgotToDocumentAllMyEndpoints: true, // CHANGE ME ;)
     message: "Welcome to my personal api! Here's what you need to know!",
-    documentationUrl: "https://github.com/example-username/express-personal-api/README.md", // CHANGE ME
-    baseUrl: "https://walrusmaximus-personalapi.herokuapp.com/", // CHANGE ME
+    documentationUrl: "https://github.com/WalrusMaximus/Personal-API",
+    baseUrl: "https://walrusmaximus-personalapi.herokuapp.com/",
     endpoints: [
       {method: "GET", path: "/api", description: "Describes all available endpoints"},
-      {method: "POST", path: "/api/albums", description: "pull the entire album db"}
+      {method: "GET", path: "/api/albums", description: "pull the entire album db"},
+      {method: "GET", path: "/api/profile", description: "see a profile about me"},
     ]
   })
 });
@@ -65,6 +65,15 @@ app.get('/api/albums', (req, res) => {
     res.json(albums);
   })
 })
+
+// profile route
+app.get('/api/profile', (req, res) => {
+  res.send({
+    name: "Matt Freeland",
+    github: "WalrusMaximus",
+    favorite_thing: "Heavy Metal",
+  });
+});
 
 /**********
  * SERVER *

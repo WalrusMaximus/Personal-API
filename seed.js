@@ -44,15 +44,15 @@ const album_list = [
 ]
 
 
-db.Album.deleteMany({}, function(err, albums) {
+db.Albums.deleteMany({}, function(err, albums) {
     console.log('Cleared Album Database');
-    db.Album.create(album_list, function(err, albums){
+    db.Albums.create(album_list, function(err, albums){
         if (err) { console.log(err) }
             return; 
         });
 
         album_list.forEach(function (albumData) {
-            let album = new db.Album({
+            let album = new db.Albums({
                 name: albumData.name,
                 band: albumData.band,
                 rating: albumData.rating,

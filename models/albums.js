@@ -7,6 +7,6 @@ const AlbumSchema = new Schema({
     rating: String,
 })
 
-const Album = mongoose.model('Album', AlbumSchema);
+const Albums = mongoose.model('Albums', AlbumSchema);
 
-module.exports = Album;
+module.exports = Albums;

@@ -1,6 +1,6 @@
 const mongoose = require("mongoose");
 mongoose.connect( process.env.MONGODB_URI || "mongodb://localhost/personal-api");
 
-module.exports.Album = require("./albums.js")
+module.exports.Albums = require("./albums.js")
 
 
