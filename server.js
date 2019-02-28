@@ -62,7 +62,7 @@ app.get('/api', (req, res) => {
   })
 });
 
-// INDEX
+// INDEX - WORKS
 app.get('/api/albums', (req, res) => {
   db.Albums.find({}, (err, albums) => {
     if (err) console.log(`Error at show all albums is: ${err}`);
@@ -70,7 +70,7 @@ app.get('/api/albums', (req, res) => {
   })
 })
 
-// SHOW (BORKED)
+// SHOW - WORKS
 app.get('/api/albums/:id', (req, res) => {
   console.log(req.params)
   albumId = req.params.id;
@@ -82,30 +82,34 @@ app.get('/api/albums/:id', (req, res) => {
 
 // CREATE (BORKED)
 app.post('/api/albums/', (req, res) => {
+  let newAlbum = req.body
   console.log(req.body)
-  newAlbum = new db.Albums({
-    name: req.body.name,
-    band: req.body.band,
-    rating: req.body.rating,
+  db.Albums.create(newAlbum,(err,createdAlbum)=>{
+    if (err){
+      res.send(err)
+    }
+    res.json(createdAlbum)
   })
-  newAlbum.save((err, newAlbumAdded) => {
-    if (err) {throw err}
-    res.json(newAlbumAdded)
-  });
-})
-
-// UPDATE (BORKED)
-app.put('/api/albums/:id',(req,res) => {
-  console.log('Updating Album:', req.params);
-  console.log(req.body);
-  const albumId = req.params.id;
-  db.albums.findOneAndUpdate(albumId, (err, updateAlbum) => {
-      if(err) {throw err;}
-      res.json(updateAlbum);
-    });
 });
 
-// DELETE WORKS
+// UPDATE (BORKED)
+app.put('/api/albums/:id', function(req,res){
+  console.log('updated album: ', req.params);
+  let id = req.params.id;
+  console.log(req.body);
+  db.Albums.findOneAndUpdate(
+    id,
+    req.body,
+    {new: true},
+    (err, updatedAlbum) => {
+    if (err) {
+      console.log("the error is " + err);
+    }
+    res.json(updatedAlbum);
+  });
+});
+
+// DELETE - WORKS
 app.delete('/api/albums/:id', (req, res) =>{
   const albumId = req.params.id;
   console.log('delete album', albumId);
