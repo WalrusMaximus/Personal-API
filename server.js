@@ -52,13 +52,17 @@ app.get('/api', (req, res) => {
     baseUrl: "https://walrusmaximus-personalapi.herokuapp.com/",
     endpoints: [
       {method: "GET", path: "/api", description: "Describes all available endpoints"},
-      {method: "GET", path: "/api/albums", description: "pull the entire album db"},
+      {method: "GET", path: "/api/albums", description: "Index albums"},
+      {method: "GET", path: "/api/albums/:id", description: "Show one album"},
+      {method: "POST", path: "/api/albums/", description: "Create one album"},
+      {method: "PUT", path: "/api/albums/:id", description: "Update one album"},
+      {method: "DELETE", path: "/api/albums/:id", description: "Delete one album"},
       {method: "GET", path: "/api/profile", description: "see a profile about me"},
     ]
   })
 });
 
-// Show All Albums
+// INDEX
 app.get('/api/albums', (req, res) => {
   db.Albums.find({}, (err, albums) => {
     if (err) console.log(`Error at show all albums is: ${err}`);
@@ -66,7 +70,55 @@ app.get('/api/albums', (req, res) => {
   })
 })
 
-// profile route
+// SHOW (BORKED)
+app.get('/api/albums/:id', (req, res) => {
+  console.log(req.params)
+  albumId = req.params.id;
+  db.Albums.findOneAndDelete(albumId, (err, foundAlbum) => {
+    if(err){throw err}
+    res.json(foundAlbum)
+  })
+})
+
+// CREATE (BORKED)
+app.post('/api/albums/', (req, res) => {
+  console.log(req.body)
+  newAlbum = new db.Albums({
+    name: req.body.name,
+    band: req.body.band,
+    rating: req.body.rating,
+  })
+  newAlbum.save((err, newAlbumAdded) => {
+    if (err) {throw err}
+    res.json(newAlbumAdded)
+  });
+})
+
+// UPDATE (BORKED)
+app.put('/api/albums/:id',(req,res) => {
+  console.log('Updating Album:', req.params);
+  console.log(req.body);
+  const albumId = req.params.id;
+  db.albums.findOneAndUpdate(albumId, (err, updateAlbum) => {
+      if(err) {throw err;}
+      res.json(updateAlbum);
+    });
+});
+
+// DELETE WORKS
+app.delete('/api/albums/:id', (req, res) =>{
+  const albumId = req.params.id;
+  console.log('delete album', albumId);
+  db.Albums.findOneAndDelete(albumId, (err, deletedAlbum) => {
+    if(err) { throw err; }
+    res.json(deletedAlbum);
+  });
+});
+
+
+
+
+// PROFILE
 app.get('/api/profile', (req, res) => {
   res.send({
     name: "Matt Freeland",
