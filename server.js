@@ -7,6 +7,9 @@ const app = express();
 const bodyParser = require('body-parser');
 app.use(bodyParser.urlencoded({ extended: true }));
 
+// Add this line to make sure bodyParser is looking for properly formatted JSON objects in the body, otherwise body comes back as {}
+app.use(bodyParser.json());
+
 // allow cross origin requests (optional)
 // https://developer.mozilla.org/en-US/docs/Web/HTTP/Access_control_CORS
 app.use(function(req, res, next) {
