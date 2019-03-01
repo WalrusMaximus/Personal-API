@@ -65,7 +65,7 @@ app.get('/api', (req, res) => {
   })
 });
 
-// INDEX - WORKS
+// INDEX
 app.get('/api/albums', (req, res) => {
   db.Albums.find({}, (err, albums) => {
     if (err) console.log(`Error at show all albums is: ${err}`);
@@ -73,17 +73,17 @@ app.get('/api/albums', (req, res) => {
   })
 })
 
-// SHOW - WORKS
+// SHOW
 app.get('/api/albums/:id', (req, res) => {
   console.log(req.params)
   albumId = req.params.id;
-  db.Albums.findOneAndDelete(albumId, (err, foundAlbum) => {
+  db.Albums.findOne(albumId, (err, foundAlbum) => {
     if(err){throw err}
     res.json(foundAlbum)
   })
 })
 
-// CREATE (BORKED)
+// CREATE
 app.post('/api/albums/', (req, res) => {
   let newAlbum = req.body
   console.log(req.body)
@@ -95,7 +95,7 @@ app.post('/api/albums/', (req, res) => {
   })
 });
 
-// UPDATE (BORKED)
+// UPDATE
 app.put('/api/albums/:id', function(req,res){
   console.log('updated album: ', req.params);
   let id = req.params.id;
@@ -112,7 +112,7 @@ app.put('/api/albums/:id', function(req,res){
   });
 });
 
-// DELETE - WORKS
+// DELETE
 app.delete('/api/albums/:id', (req, res) =>{
   const albumId = req.params.id;
   console.log('delete album', albumId);
